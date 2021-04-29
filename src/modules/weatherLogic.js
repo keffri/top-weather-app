@@ -1,9 +1,9 @@
-import apiKey from "../key.js";
+import apiKey from "../api.js";
 
 async function fetchCityWeather() {
   try {
     const response = await fetch(
-      `http://api.openweathermap.org/data/2.5/weather?q=vancouver&units=metric&appid=${apiKey.openWeatherKey}`,
+      `http://api.openweathermap.org/data/2.5/weather?q=vancouver&units=metric&appid=${apiKey.key}`,
       { mode: "cors" }
     );
 

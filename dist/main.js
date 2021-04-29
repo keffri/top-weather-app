@@ -9,10 +9,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+
+
 async function fetchCityWeather() {
   try {
     const response = await fetch(
-      "http://api.openweathermap.org/data/2.5/weather?q=vancouver&units=metric&appid=e47d4839e9c5f1d3ce985872d16e90c7",
+      `http://api.openweathermap.org/data/2.5/weather?q=vancouver&units=metric&appid=${_api_js__WEBPACK_IMPORTED_MODULE_0__.default.key}`,
       { mode: "cors" }
     );
 
@@ -48,6 +51,21 @@ async function cityWeatherInfo() {
 }
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (cityWeatherInfo);
+
+
+/***/ }),
+/* 2 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+const apiKey = {
+  key: "3512750901eadb67250ec4eb5bab54f9",
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (apiKey);
 
 
 /***/ })
@@ -114,11 +132,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_weatherLogic__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
 
 
-const testButton = document.querySelector(".testButton");
+const form = document.getElementById("form");
+const celsiusButton = document.getElementById("celsius");
+const fahrenheitButton = document.getElementById("fahrenheit");
 
-const testText = document.querySelector(".testText");
-
-testButton.addEventListener("click", _modules_weatherLogic__WEBPACK_IMPORTED_MODULE_0__.default);
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
+  (0,_modules_weatherLogic__WEBPACK_IMPORTED_MODULE_0__.default)();
+});
 
 })();
 
