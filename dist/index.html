@@ -5,11 +5,56 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>TOP Weather App</title>
+    <link rel="stylesheet" href="reset.css" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <p class="testText">1</p>
-    <button class="testButton">Test</button>
+    <div id="mainContainer">
+      <header id="header">
+        <h2>TOP Weather App</h2>
+      </header>
+
+      <main id="weatherContainer">
+        <div class="locationContainer">
+          <h1 class="city">City Name</h1>
+          <h1 class="country">Country</h1>
+        </div>
+        <div class="weatherInfo">
+          <!-- <img src="#" alt="wi" class="weatherIcon" /> -->
+          <p class="weather">Weather</p>
+          <p class="weatherDescription">Weather Description</p>
+        </div>
+        <div class="temperatureInfo">
+          <p class="tempMax">tempMax</p>
+          <p class="temp">temp</p>
+          <p class="tempMin">tempMin</p>
+        </div>
+        <div class="etcInfo">
+          <p class="sunrise">Sunrise</p>
+          <p class="humidity">Humidity</p>
+          <p class="sunset">Sunset</p>
+        </div>
+      </main>
+
+      <footer id="controlsContainer">
+        <form id="form" novalidate>
+          <div class="searchContainer">
+            <input
+              type="text"
+              name="searchCity"
+              id="searchCity"
+              placeholder="Enter city name..."
+            />
+          </div>
+
+          <div class="buttonContainer">
+            <button id="celsius" class="active">C°</button>
+            <button id="fahrenheit">F°</button>
+          </div>
+        </form>
+      </footer>
+    </div>
+
     <script src="main.js"></script>
   </body>
 </html>
