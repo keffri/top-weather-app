@@ -1,7 +1,24 @@
-import cityWeatherInfo from "./modules/weatherLogic";
+import weatherLogic from "./modules/weatherLogic";
+import weatherDOM from "./modules/weatherDOM";
 
-const testButton = document.querySelector(".testButton");
+const form = document.getElementById("form");
+const celsiusButton = document.getElementById("celsius");
+const fahrenheitButton = document.getElementById("fahrenheit");
+const searchInput = document.querySelector("#searchCity");
 
-const testText = document.querySelector(".testText");
+searchInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    e.preventDefault();
+    weatherDOM.updateWeatherDOM(searchInput.value);
+  }
+});
 
-testButton.addEventListener("click", cityWeatherInfo);
+celsiusButton.addEventListener("click", (e) => {
+  e.preventDefault();
+  weatherDOM.convertCelsius();
+});
+
+fahrenheitButton.addEventListener("click", (e) => {
+  e.preventDefault();
+  weatherDOM.convertFahrenheit();
+});

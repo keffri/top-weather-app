@@ -1,41 +1,94 @@
 import apiKey from "../api.js";
+import weatherDOM from "./weatherDOM.js";
 
-async function fetchCityWeather() {
-  try {
-    const response = await fetch(
-      `http://api.openweathermap.org/data/2.5/weather?q=vancouver&units=metric&appid=${apiKey.key}`,
-      { mode: "cors" }
-    );
+const weatherLogic = (() => {
+  let celsius = true;
+  let fahrenheit = false;
 
-    const data = await response.json();
+  async function fetchCityWeather(city) {
+    try {
+      let response = "";
 
-    console.log(data);
+      if (weatherLogic.celsius) {
+        response = await fetch(
+          `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey.key}`,
+          { mode: "cors" }
+        );
+      } else if (weatherLogic.fahrenheit) {
+        response = await fetch(
+          `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${apiKey.key}`,
+          { mode: "cors" }
+        );
+      }
 
-    const weatherInfo = {
-      cityName: data.name,
-      cityTemp: data.main.temp,
-      cityTempMax: data.main.temp_max,
-      cityTempMin: data.main.temp_min,
-      cityWeather: data.weather[0].main,
-      cityWeatherDescription: data.weather[0].description,
-      cityHumidity: data.main.humidity,
+      const data = await response.json();
 
-      // * Epoch Unix Time
+      const weatherInfo = {
+        cityName: data.name,
+        countryName: data.sys.country,
+        cityTemp: data.main.temp,
+        cityTempMax: data.main.temp_max,
+        cityTempMin: data.main.temp_min,
+        cityWeather: data.weather[0].main,
+        cityWeatherDescription: data.weather[0].description,
+        cityHumidity: data.main.humidity,
+        citySunrise: unixConvert(data.sys.sunrise),
+        citySunset: unixConvert(data.sys.sunset),
+      };
 
-      citySunrise: data.sys.sunrise,
-      citySunset: data.sys.sunset,
-    };
-
-    return weatherInfo;
-  } catch (error) {
-    console.log(error);
-    console.log("error");
+      return weatherInfo;
+    } catch (error) {
+      console.log(error);
+      console.log("error");
+    }
   }
-}
 
-async function cityWeatherInfo() {
-  const weatherInfo = await fetchCityWeather();
-  console.log(weatherInfo);
-}
+  async function cityWeatherInfo(city) {
+    const weatherInfo = await fetchCityWeather(city);
+    return weatherInfo;
+  }
 
-export default cityWeatherInfo;
+  function unixConvert(time) {
+    const date = new Date(time * 1000);
+    const hours = date.getHours();
+    const minutes = "0" + date.getMinutes();
+    const seconds = "0" + date.getSeconds();
+    if (hours > 12) {
+      const convertedTime = `${hours - 12}:${minutes.substr(
+        -2
+      )}:${seconds.substr(-2)}`;
+      return convertedTime;
+    } else {
+      const convertedTime = `${hours}:${minutes.substr(-2)}:${seconds.substr(
+        -2
+      )}`;
+      return convertedTime;
+    }
+  }
+
+  function convertToCelsius(f) {
+    if (weatherLogic.fahrenheit) {
+      return Math.round((f - 32) / 1.8);
+    } else {
+      return;
+    }
+  }
+
+  function convertToFahrenheit(c) {
+    if (weatherLogic.celsius) {
+      return Math.round(c * 1.8 + 32);
+    } else {
+      return;
+    }
+  }
+
+  return {
+    cityWeatherInfo,
+    convertToCelsius,
+    convertToFahrenheit,
+    celsius,
+    fahrenheit,
+  };
+})();
+
+export default weatherLogic;
